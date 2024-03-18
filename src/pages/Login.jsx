@@ -49,7 +49,7 @@ export default function Login() {
 
   const registerSinup = async () => {
     try {
-      await navigate("/signup");
+      await navigate("/signUp");
     } catch (error) {
     }
   };

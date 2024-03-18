@@ -13,8 +13,8 @@ export default function SignUp() {
   } = useForm();
 
   // Define the mutation for signing up
-  const { mutate: signupMutation } = useMutation({
-    mutationKey: "signup",
+  const { mutate: signUpMutation } = useMutation({
+    mutationKey: "signUp",
     mutationFn: async ({ email, password }) => {
       return await createUserWithEmailAndPassword(auth, email, password);
     },
@@ -24,7 +24,7 @@ export default function SignUp() {
   });
 
   const onSubmit = async (data) => {
-    signupMutation(data);
+    signUpMutation(data);
   };
 
   return (
@@ -55,7 +55,7 @@ export default function SignUp() {
         <button
           className="button"
           type="submit"
-          disabled={signupMutation.isLoading}
+          disabled={signUpMutation.isLoading}
         >
           Sign up
         </button>
