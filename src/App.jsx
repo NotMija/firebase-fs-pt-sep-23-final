@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import { NavBar } from "./components/NavBar";
 import { List } from "./components/GalleryList";
-import {  } from "./pages/SignUp";
+import { SignUp } from "./pages/SignUp";
 import { Login } from "./pages/Login";
 import { Gallery } from './pages/Gallery';
 import { Friends } from "./pages/Friends";
