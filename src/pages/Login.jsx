@@ -8,7 +8,6 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { auth } from "../config/firebase";
-import SignUp from "./SignUp";
 
 export default function Login() {
   const navigate = useNavigate();
