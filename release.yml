@@ -30,3 +30,7 @@ jobs:
           draf: false
           prerelease: false
           tag_name: ${{ steps.changelog.outputs.tag }}
+
+      # Adding VITE_API_KEY as a secret
+      - name: Set up environment variables
+        run: echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env.production
