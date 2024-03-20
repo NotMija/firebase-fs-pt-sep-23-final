@@ -57,8 +57,8 @@ export default function Comment({ id }) {
                 <div className="col-11">
                   <span
                     className={`badge ${user === currentlyLoggedinUser.uid
-                        ? "bg-success"
-                        : "bg-primary"
+                      ? "bg-success"
+                      : "bg-primary"
                       }`}
                   >
                     {userName}

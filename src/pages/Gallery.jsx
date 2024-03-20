@@ -1,73 +1,68 @@
 import React, { useState, useEffect } from "react";
-import { ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../config/firebase";
 import { CircularProgress } from "@mui/material";
-import { addDoc, collection, query, getDocs, where } from "firebase/firestore";
+import { addDoc, collection, query, onSnapshot, where } from "firebase/firestore";
 import { db, auth } from "../config/firebase";
 import { List } from "../components/GalleryList";
 
 export const Gallery = () => {
   const [list, setList] = useState([]);
   const [urlImgDesc, setUrlImgDesc] = useState("");
-  const [loading, setLoading] = useState(false); // Estado para controlar la carga
+  const [loading, setLoading] = useState(false);
+  const [imageUploaded, setImageUploaded] = useState(false);
 
   const userId = auth.currentUser.uid;
 
   useEffect(() => {
-    if (userId) {
-      getList();
-    }
-  }, [userId]);
+    const unsubscribe = onSnapshot(
+      query(collection(db, "photos"), where("userId", "==", userId)),
+      (snapshot) => {
+        const docs = [];
+        snapshot.forEach((doc) => {
+          docs.push({ ...doc.data(), id: doc.id });
+        });
+        setList(docs);
+      },
+      (error) => {
+        console.error("Error al obtener fotos:", error);
+      }
+    );
 
-  const getList = async () => {
-    try {
-      const q = query(
-        collection(db, "photos"),
-        where("userId", "==", userId)
-      );
-      const querySnapshot = await getDocs(q);
-      const docs = [];
-      querySnapshot.forEach((doc) => {
-        docs.push({ ...doc.data(), id: doc.id });
-      });
-      setList(docs);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    return () => unsubscribe();
+  }, [userId, imageUploaded]); // Agregar imageUploaded como dependencia
 
-  const saveInfo = async (e) => {
+  const handleSaveInfo = async (e) => {
     e.preventDefault();
-    const title = e.target.title.value;
-    const commentary = e.target.commentary.value;
+    const title = e.target.title.value.trim();
+    const commentary = e.target.commentary.value.trim();
 
-    const newPost = {
-      title: title,
-      commentary: commentary,
-      image: urlImgDesc,
-      userId: userId,
-    };
+    if (!title || !commentary || !urlImgDesc) {
+      alert("Por favor, complete todos los campos.");
+      return;
+    }
 
     try {
-      setLoading(true); // Inicia la carga al hacer clic en el botón
+      setLoading(true);
 
       await addDoc(collection(db, "photos"), {
-        ...newPost,
+        title: title,
+        commentary: commentary,
+        image: urlImgDesc,
+        userId: userId,
       });
 
-      await getList(); // Actualiza la lista de fotos
-
-      e.target.reset(); // Limpia el formulario después de guardar
-
-      setUrlImgDesc(""); // Reinicia la URL de la imagen
+      e.target.reset();
+      setUrlImgDesc("");
+      setImageUploaded(!imageUploaded); // Invertir el estado de imageUploaded para forzar la actualización
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false); // Finaliza la carga después de completar la publicación
+      setLoading(false);
     }
   };
 
-  const fileHandler = async (e) => {
+  const handleFileUpload = async (e) => {
     const archiveImg = e.target.files[0];
     const refArchive = ref(storage, `documents/${archiveImg.name}`);
     await uploadBytes(refArchive, archiveImg);
@@ -82,13 +77,13 @@ export const Gallery = () => {
         <div className="col-sm-8">
           <div className="card card-body container col-sm-8 mt-4">
             <h3 className="text-center fs-3">Agregar Multimedia</h3>
-            <form className="m-2" onSubmit={saveInfo}>
+            <form className="m-2" onSubmit={handleSaveInfo}>
               <label>Titulo:</label>
               <div className="form-group mt-3">
                 <input
                   type="text"
                   placeholder="Ponle un titulo a la imagen"
-                  id="title"
+                  name="title"
                   className="form-control mt-1"
                   required
                 />
@@ -96,29 +91,29 @@ export const Gallery = () => {
               <label className="mt-2 mb-2">Agregar imagen:</label>
               <input
                 type="file"
-                id="file"
+                name="file"
                 placeholder="Agregar imagen"
                 className="form-control"
-                onChange={fileHandler}
+                onChange={handleFileUpload}
               />
               <label className="mt-2 mb-2">Comentario: </label>
               <div className="form-group">
                 <input
                   type="text"
                   placeholder="Ponle un comentario"
-                  id="commentary"
+                  name="commentary"
                   className="form-control mt-1"
                   required
                 />
               </div>
               <button className="btn btn-primary mt-3 form-control" disabled={loading}>
-                {loading ? <CircularProgress size={24} /> : "Subir Imagen"}
+                {loading ? <CircularProgress size={24} /> : "Publicar"}
               </button>
             </form>
           </div>
         </div>
       </div>
-      <List list={list} /> {/* Pasar la lista como una prop al componente List */}
+      <List list={list} setImageUploaded={setImageUploaded} /> {/* Pasar setImageUploaded como prop */}
     </div>
   );
 };

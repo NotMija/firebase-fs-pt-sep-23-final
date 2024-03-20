@@ -34,7 +34,7 @@ export const NavBar = () => {
               }}
               to="/friends"
             >
-              Seguidos
+              Usuarios
             </Link>
 
             <Link

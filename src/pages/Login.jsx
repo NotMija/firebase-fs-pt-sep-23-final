@@ -88,8 +88,8 @@ export default function Login() {
       </Button>
 
       <Button className="button" onClick={registerSinup} disabled={isLoading}>
-      Crear cuenta nueva
-      </Button> 
+        Crear cuenta nueva
+      </Button>
 
     </div>
   );

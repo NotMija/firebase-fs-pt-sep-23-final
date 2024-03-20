@@ -14,8 +14,7 @@ import Article from "./components/Article";
 import Articles from "./components/Articles";
 import AddArticle from "./components/AddArticle";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-
+import { UserDetails } from "./pages/FriendsDetail.jsx";
 
 function App() {
   return (
@@ -46,6 +45,7 @@ function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/gallery" element={<List />} />
           <Route path="/friends" element={<Friends />} />
+          <Route path="/user/:docId" element={<UserDetails />} /> {/* Ruta para UserDetails */}
         </Route>
       </Route>
     </Routes>

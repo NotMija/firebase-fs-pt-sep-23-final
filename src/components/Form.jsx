@@ -21,7 +21,7 @@ export const Form = () => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             if (user) {
                 setUser(user);
-                setFormData({...formData, email: user.email});
+                setFormData({ ...formData, email: user.email });
             } else {
                 setUser(null);
             }
@@ -46,9 +46,9 @@ export const Form = () => {
                 alert("Por favor, complete el nombre y el apellido.");
                 return;
             }
-    
+
             let imgUrl = formData.imgUrl;
-    
+
             // Verificar si se ha seleccionado una nueva imagen
             if (e.target.img.files.length > 0) {
                 const imgFile = e.target.img.files[0];
@@ -56,7 +56,7 @@ export const Form = () => {
                 await uploadBytes(imgRef, imgFile);
                 imgUrl = await getDownloadURL(imgRef);
             }
-    
+
             const formDataWithImgUrl = {
                 name: formData.name,
                 lastName: formData.lastName,
@@ -64,14 +64,14 @@ export const Form = () => {
                 studies: formData.studies,
                 birthdate: formData.birthdate,
                 email: formData.email,
-                imgUrl: imgUrl, 
+                imgUrl: imgUrl,
                 pets: formData.pets,
                 showEmail: formData.showEmail
             };
-    
+
             const userRef = doc(db, "users", user.uid); // Utilizar el UID del usuario autenticado
             await setDoc(userRef, formDataWithImgUrl, { merge: true });
-    
+
             alert("Formulario enviado correctamente.");
             setFormData({
                 name: "",
