@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { db } from '../config/firebase'; 
+import { db } from '../config/firebase';
 import { doc, getDoc, collection, query, where, getDocs, updateDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import { List } from '../components/GalleryList';
@@ -99,7 +99,7 @@ export const UserDetails = () => {
           </ul>
         )}
       </div>
-      
+
       {/* Renderizar el componente List con los datos de los posts */}
       <List list={userPosts} showDeleteButton={false} />
     </div>
