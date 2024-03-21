@@ -83,9 +83,9 @@ export default function AddArticle() {
   return (
     <div className="border p-3 mt-3 bg-light" style={{ position: "fixed" }}>
       <>
-        <h2>Create article</h2>
+        <h2>Crear articulo</h2>
         <div className="form-group">
-          <label htmlFor="">Title</label>
+          <label htmlFor="">Titulo</label>
           <input
             type="text"
             name="title"
@@ -96,7 +96,7 @@ export default function AddArticle() {
         </div>
 
         {/* description */}
-        <label htmlFor="">Description</label>
+        <label htmlFor="">Descripción</label>
         <textarea
           name="description"
           className="form-control"
@@ -105,7 +105,7 @@ export default function AddArticle() {
         />
 
         {/* image */}
-        <label htmlFor="">Image</label>
+        <label htmlFor="">Imagen</label>
         <input
           type="file"
           name="image"

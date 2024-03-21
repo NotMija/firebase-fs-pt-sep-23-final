@@ -31,8 +31,8 @@ export default function Article() {
           </div>
           <div className="col-md-9 mt-3">
             <h2>{article.title}</h2>
-            <h5>Author: {article.createdBy}</h5>
-            <div> Posted on: {article.createdAt.toDate().toDateString()}</div>
+            <h5>Autor: {article.createdBy}</h5>
+            <div> Posteado el: {article.createdAt.toDate().toDateString()}</div>
             <hr />
             <h4>{article.description}</h4>
 

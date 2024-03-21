@@ -48,7 +48,7 @@ export default function Comment({ id }) {
 
   return (
     <div>
-      Comment
+      Comentarios
       <div className="container">
         {comments !== null &&
           comments.map(({ commentId, user, comment, userName, createdAt }) => (
@@ -92,7 +92,7 @@ export default function Comment({ id }) {
             onChange={(e) => {
               setComment(e.target.value);
             }}
-            placeholder="Add a comment"
+            placeholder="Añade un comentario"
             onKeyUp={(e) => {
               handleChangeComment(e);
             }}

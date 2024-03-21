@@ -24,7 +24,7 @@ export default function Articles() {
   return (
     <div>
       {articles.length === 0 ? (
-        <p>No articles found!</p>
+        <p>No hay articulos</p>
       ) : (
         articles.map(
           ({
@@ -73,7 +73,7 @@ export default function Articles() {
                     </div>
                     {comments && comments.length > 0 && (
                       <div className="pe-2">
-                        <p>{comments?.length} comments</p>
+                        <p>{comments?.length} comentarios </p>
                       </div>
                     )}
                   </div>
